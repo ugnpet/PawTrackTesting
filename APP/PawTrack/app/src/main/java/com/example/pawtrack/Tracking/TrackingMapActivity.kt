@@ -73,8 +73,8 @@ class TrackingMapActivity : AppCompatActivity() {
     private var startGeoPoint: GeoPoint? = null
     private var endGeoPoint: GeoPoint? = null
     private var timer: Timer? = null
-    private var startTime = 0L
-    private var endTime = 0L
+    var startTime = 0L
+    var endTime = 0L
     private val pathPoints = mutableListOf<TimedGeoPoint>()
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -235,7 +235,7 @@ class TrackingMapActivity : AppCompatActivity() {
         }
     }
 
-    private fun formatDate(timestamp: Long): String {
+    fun formatDate(timestamp: Long): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         return sdf.format(Date(timestamp))
     }
@@ -263,7 +263,7 @@ class TrackingMapActivity : AppCompatActivity() {
         return R * c // Distance in kilometers
     }
 
-    private fun saveTrip(start: GeoPoint?, end: GeoPoint?, pet_id: String?) {
+    fun saveTrip(start: GeoPoint?, end: GeoPoint?, pet_id: String?) {
         try {
             val JSON = "application/json; charset=utf-8".toMediaType()
             val elapsedMillis = endTime - startTime

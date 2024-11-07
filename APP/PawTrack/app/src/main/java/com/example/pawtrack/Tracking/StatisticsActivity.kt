@@ -95,7 +95,7 @@ class StatisticsActivity: AppCompatActivity() {
             }
         }
     }
-    private fun performGetRequest(onDataFetched: OnDataFetched, pet_id: String?) {
+    fun performGetRequest(onDataFetched: OnDataFetched, pet_id: String?) {
         val httpUrl = HttpUrl.Builder()
             .scheme("https")
             .host("pvp.seriouss.am")
@@ -134,7 +134,7 @@ class StatisticsActivity: AppCompatActivity() {
             }
         })
     }
-    private fun parseResponseToList(response: String): List<Map<String, String?>> {
+    fun parseResponseToList(response: String): List<Map<String, String?>> {
         return response.split("\n")
             .mapNotNull { line ->
                 if (line.isNotBlank()) {

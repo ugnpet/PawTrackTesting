@@ -260,7 +260,7 @@ class YearlyReviewActivity: AppCompatActivity() {
         }
     }
 
-    private fun getMonths(): Array<String> {
+    fun getMonths(): Array<String> {
         return arrayOf(
             "Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -313,7 +313,7 @@ class YearlyReviewActivity: AppCompatActivity() {
         })
     }
 
-    private fun parseResponse(response: String): ParsedData {
+    fun parseResponse(response: String): ParsedData {
         val distanceEntries = mutableListOf<BarEntry>()
         val caloriesEntries = mutableListOf<BarEntry>()
         val activeDaysEntries = mutableListOf<BarEntry>()

@@ -128,7 +128,7 @@ class TrackingActivity : AppCompatActivity() {
 
 
 
-    private fun performTrackingSetPostRequest(status : Int) {
+    fun performTrackingSetPostRequest(status : Int) {
         sharedPreferences = getSharedPreferences("PawTrackPrefs", Context.MODE_PRIVATE)
         val petPhoto = sharedPreferences.getString("LastSelectedPetProfile", null)
         val petName = sharedPreferences.getString("selectedPetName", null)
@@ -240,7 +240,7 @@ class TrackingActivity : AppCompatActivity() {
         })
     }
 
-    private fun parseStatisticsResponseToList(response: String): List<Map<String, String?>> {
+    fun parseStatisticsResponseToList(response: String): List<Map<String, String?>> {
         return response.split("\n")
             .mapNotNull { line ->
                 if (line.isNotBlank()) {
@@ -404,7 +404,7 @@ class TrackingActivity : AppCompatActivity() {
             cardContainer.addView(cardView)
         }
     }
-    private fun performGetRequest(username: String?, pet_id: String?) {
+    fun performGetRequest(username: String?, pet_id: String?) {
         if (pet_id.isNullOrEmpty()) {
             runOnUiThread {
                 Toast.makeText(applicationContext, "Select a pet first", Toast.LENGTH_SHORT).show()
@@ -449,7 +449,7 @@ class TrackingActivity : AppCompatActivity() {
         })
     }
 
-    private fun parseResponse(response: String): List<Map<String, String?>> {
+    fun parseResponse(response: String): List<Map<String, String?>> {
         val lines = response.split("\n")
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val parsedActivities = mutableListOf<Map<String, String?>>()

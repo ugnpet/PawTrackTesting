@@ -106,7 +106,7 @@ class RouteActivity : AppCompatActivity() {
         }
     }
 
-    private fun performGetRequest(username: String?, pet_id: String?) {
+    fun performGetRequest(username: String?, pet_id: String?) {
         if (pet_id.isNullOrEmpty()) {
             runOnUiThread {
                 Toast.makeText(applicationContext, "Select a pet first", Toast.LENGTH_SHORT).show()
@@ -151,7 +151,7 @@ class RouteActivity : AppCompatActivity() {
         })
     }
 
-    private fun performGetLongLatRequest(cardView: CardView, id: String?) {
+    fun performGetLongLatRequest(cardView: CardView, id: String?) {
         val httpUrl = HttpUrl.Builder()
             .scheme("https")
             .host("pvp.seriouss.am")
@@ -189,7 +189,7 @@ class RouteActivity : AppCompatActivity() {
         })
     }
 
-    private fun parsePoints(jsonString: String?): List<GeoPoint> {
+    fun parsePoints(jsonString: String?): List<GeoPoint> {
         val pointsList = mutableListOf<GeoPoint>()
         jsonString?.let {
             val lines = it.split("\n")
@@ -209,7 +209,7 @@ class RouteActivity : AppCompatActivity() {
         return pointsList
     }
 
-    private fun parseResponse(response: String): List<Map<String, String?>> {
+    fun parseResponse(response: String): List<Map<String, String?>> {
         val lines = response.split("\n")
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val parsedActivities = mutableListOf<Map<String, String?>>()
@@ -238,7 +238,7 @@ class RouteActivity : AppCompatActivity() {
         return parsedActivities
     }
 
-    private fun createCardViews(parsedData: List<Map<String, String?>>) {
+    fun createCardViews(parsedData: List<Map<String, String?>>) {
         val cardContainer = findViewById<LinearLayout>(R.id.cardContainer)
         cardContainer.removeAllViews()
 
@@ -350,7 +350,7 @@ class RouteActivity : AppCompatActivity() {
         }
     }
 
-    private fun AddMapViewToCardView(cardView: CardView, mapPoints: List<GeoPoint>) {
+    fun AddMapViewToCardView(cardView: CardView, mapPoints: List<GeoPoint>) {
         val mapView = MapView(this).apply {
             id = View.generateViewId()
 
