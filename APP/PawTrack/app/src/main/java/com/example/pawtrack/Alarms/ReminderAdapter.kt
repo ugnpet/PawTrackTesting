@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pawtrack.R
 
 class ReminderAdapter(
-    private var alarms: List<AlarmItem>,
+    var alarms: List<AlarmItem>,
     private val onDeleteClickListener: (AlarmItem) -> Unit
 ) : RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder>() {
 

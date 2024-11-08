@@ -32,11 +32,20 @@ class AndroidAlarmScheduler(private val context: Context) {
 
         Log.d("AndroidAlarmScheduler", "Scheduling alarm for ${alarmItem.message} at ${calendar.time}")
 
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
+        if (alarmItem.repeat) {
+            alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent
+            )
+        } else {
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+            )
+        }
     }
 
     fun cancel(id: Int) {

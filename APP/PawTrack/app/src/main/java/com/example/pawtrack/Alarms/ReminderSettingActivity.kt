@@ -1,7 +1,6 @@
 package com.example.pawtrack.Alarms
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -26,22 +25,20 @@ import com.example.pawtrack.User.SubscriptionActivity
 import com.example.pawtrack.User.UserProfileActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
 
 class ReminderSettingActivity : AppCompatActivity() {
 
-    private lateinit var scheduler: AndroidAlarmScheduler
-    private lateinit var adapter: ReminderAdapter
-    private lateinit var bottomSheet: LinearLayout
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var fabAddReminder: FloatingActionButton
+    lateinit var scheduler: AndroidAlarmScheduler
+    lateinit var adapter: ReminderAdapter
+    lateinit var bottomSheet: LinearLayout
+    lateinit var recyclerView: RecyclerView
+    lateinit var fabAddReminder: FloatingActionButton
     private lateinit var btnSaveReminder: Button
-    private lateinit var etReminderName: EditText
-    private lateinit var cbRepeat: CheckBox
-    private lateinit var timePicker: TimePicker
+    lateinit var etReminderName: EditText
+    lateinit var cbRepeat: CheckBox
+    lateinit var timePicker: TimePicker
     private val NOTIFICATION_PERMISSION_REQUEST_CODE = 1001
+    private lateinit var alarmManager: ReminderManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +47,12 @@ class ReminderSettingActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         scheduler = AndroidAlarmScheduler(this)
-        adapter = ReminderAdapter(emptyList()) { alarm ->
-            deleteAlarm(alarm)
-        }
+        alarmManager = ReminderManager(this)
 
+        adapter = ReminderAdapter(emptyList()) { alarm ->
+            alarmManager.deleteAlarm(alarm)
+            updateAlarms()
+        }
         recyclerView = findViewById(R.id.recyclerViewReminders)
         fabAddReminder = findViewById(R.id.fabAddReminder)
         bottomSheet = findViewById(R.id.bottomSheet)
@@ -122,10 +121,10 @@ class ReminderSettingActivity : AppCompatActivity() {
             val time = String.format("%02d:%02d", hour, minute)
 
             val newAlarm = AlarmItem(
-                id = System.currentTimeMillis().toInt(),
-                message = message,
-                time = time,
-                repeat = repeat
+                    id = System.currentTimeMillis().toInt(),
+                    message = message,
+                    time = time,
+                    repeat = repeat
             )
 
             scheduler.schedule(newAlarm)
@@ -140,67 +139,40 @@ class ReminderSettingActivity : AppCompatActivity() {
         // Request notification permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
+                            this,
+                            Manifest.permission.POST_NOTIFICATIONS
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    NOTIFICATION_PERMISSION_REQUEST_CODE
+                        this,
+                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        NOTIFICATION_PERMISSION_REQUEST_CODE
                 )
             }
         }
 
         loadAlarms()
     }
-
     private fun loadAlarms() {
-        val sharedPreferences = getSharedPreferences("alarms", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPreferences.getString("alarms_list", null)
-        val type: Type = object : TypeToken<List<AlarmItem>>() {}.type
-        val alarms: List<AlarmItem> = gson.fromJson(json, type) ?: emptyList()
+        val alarms = alarmManager.loadAlarms()
         adapter.updateData(alarms)
     }
 
     private fun saveAlarm(alarm: AlarmItem) {
-        val sharedPreferences = getSharedPreferences("alarms", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPreferences.getString("alarms_list", null)
-        val type: Type = object : TypeToken<List<AlarmItem>>() {}.type
-        val alarms: MutableList<AlarmItem> = gson.fromJson(json, type) ?: mutableListOf()
-        alarms.add(alarm)
-        val editor = sharedPreferences.edit()
-        editor.putString("alarms_list", gson.toJson(alarms))
-        editor.apply()
-    }
-
-    private fun deleteAlarm(alarm: AlarmItem) {
-        val sharedPreferences = getSharedPreferences("alarms", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPreferences.getString("alarms_list", null)
-        val type: Type = object : TypeToken<List<AlarmItem>>() {}.type
-        val alarms: MutableList<AlarmItem> = gson.fromJson(json, type) ?: mutableListOf()
-        alarms.remove(alarm)
-        val editor = sharedPreferences.edit()
-        editor.putString("alarms_list", gson.toJson(alarms))
-        editor.apply()
-
-        scheduler.cancel(alarm.id)
+        alarmManager.saveAlarm(alarm)
         updateAlarms()
     }
 
     private fun updateAlarms() {
-        val sharedPreferences = getSharedPreferences("alarms", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val json = sharedPreferences.getString("alarms_list", null)
-        val type: Type = object : TypeToken<List<AlarmItem>>() {}.type
-        val alarms: List<AlarmItem> = gson.fromJson(json, type) ?: emptyList()
+        val alarms = alarmManager.loadAlarms()
         adapter.updateData(alarms)
     }
+    private fun deleteAlarm(alarm: AlarmItem) {
+        alarmManager.deleteAlarm(alarm)
+        updateAlarms()
+    }
 
-    private fun clearInputs() {
+    fun clearInputs() {
         etReminderName.text.clear()
         cbRepeat.isChecked = false
         timePicker.hour = 0
@@ -208,9 +180,9 @@ class ReminderSettingActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
