@@ -8,6 +8,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         applicationId = "com.example.pawtrack"
         minSdk = 26
         targetSdk = 34
@@ -84,6 +85,7 @@ dependencies {
     implementation("androidx.test:core-ktx:1.6.1")
     implementation("androidx.test.ext:junit-ktx:1.2.1")
     implementation("androidx.test:rules:1.6.1")
+    implementation("androidx.test.espresso:espresso-intents:3.6.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // Testing dependencies
@@ -99,10 +101,13 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    testImplementation("org.robolectric:robolectric:4.10")
+    testImplementation("org.robolectric:robolectric:4.10.3")
     androidTestImplementation("com.android.support.test:rules:1.0.2")
     androidTestImplementation("com.android.support.test:runner:1.0.2")
     testImplementation ("com.squareup.okhttp3:mockwebserver:4.9.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test:rules:1.6.1")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
 }
 
 tasks.withType<Test> {
