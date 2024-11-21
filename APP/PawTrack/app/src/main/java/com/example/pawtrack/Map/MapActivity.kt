@@ -157,7 +157,7 @@ class MapActivity : AppCompatActivity(), OverpassQueryTask.OverpassQueryListener
 
 
 
-    private fun initializeMapWithLocation() {
+    fun initializeMapWithLocation() {
         // Set the map tile source
         mapView = findViewById(R.id.map)
         mapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE)

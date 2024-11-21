@@ -56,6 +56,7 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.appcompat:appcompat:1.3.1")
     implementation ("com.google.code.gson:gson:2.8.8")
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation ("org.osmdroid:osmdroid-android:6.1.1")
@@ -86,9 +87,11 @@ dependencies {
     implementation("androidx.test.ext:junit-ktx:1.2.1")
     implementation("androidx.test:rules:1.6.1")
     implementation("androidx.test.espresso:espresso-intents:3.6.1")
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // Testing dependencies
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.23")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
     testImplementation("io.mockk:mockk:1.13.2")
@@ -108,6 +111,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test:rules:1.6.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    implementation(kotlin("test"))
 }
 
 tasks.withType<Test> {

@@ -16,7 +16,7 @@ class OverpassQueryTask(private val listener: OverpassQueryListener, private val
     }
 
 
-    override fun doInBackground(vararg urlIconPairs: Pair<String, Int>): ArrayList<JSONObject> {
+    public override fun doInBackground(vararg urlIconPairs: Pair<String, Int>): ArrayList<JSONObject> {
         val places = ArrayList<JSONObject>()
 
         for ((url, iconResource) in urlIconPairs) {
@@ -39,7 +39,7 @@ class OverpassQueryTask(private val listener: OverpassQueryListener, private val
         return places
     }
 
-    override fun onPostExecute(result: ArrayList<JSONObject>) {
+    public override fun onPostExecute(result: ArrayList<JSONObject>) {
         super.onPostExecute(result)
         for (placeInfo in result) {
             // Pass the resource ID of the marker icon as the second parameter
@@ -47,7 +47,7 @@ class OverpassQueryTask(private val listener: OverpassQueryListener, private val
         }
     }
 
-    private fun parseResponse(response: String): ArrayList<JSONObject> {
+    fun parseResponse(response: String): ArrayList<JSONObject> {
         val Places = ArrayList<JSONObject>()
 
         val jsonObject = JSONObject(response)
