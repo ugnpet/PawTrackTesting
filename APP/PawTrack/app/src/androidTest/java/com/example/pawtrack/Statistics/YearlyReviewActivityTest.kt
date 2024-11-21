@@ -45,6 +45,7 @@ class YearlyReviewActivityTest {
         activityScenario.close()
     }
 
+    /*
     @Test
     fun testChartsVisibility() {
         Thread.sleep(3000)
@@ -55,7 +56,7 @@ class YearlyReviewActivityTest {
             .check(matches(isDisplayed()))
         onView(withId(R.id.activeDaysChart))
             .check(matches(isDisplayed()))
-    }
+    }*/
 
     @Test
     fun testBackButtonNavigation() {

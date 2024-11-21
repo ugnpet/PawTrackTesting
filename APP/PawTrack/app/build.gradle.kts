@@ -28,6 +28,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            enableAndroidTestCoverage = true
+            enableUnitTestCoverage = true
+        }
     }
 
     buildFeatures {
@@ -54,6 +58,19 @@ android {
         jvmTarget = "1.8"
     }
 }
+
+
+/*
+
+Coverage Report:
+
+Run instrumented tests: gradlew connectedAndroidTest
+Run unit tests: gradlew testDebugUnitTest
+
+Generate coverage report: gradlew jacocoCombinedTestReport
+Report in: APP/PawTrack/app/build/reports/
+
+ */
 
 dependencies {
     implementation ("androidx.appcompat:appcompat:1.3.1")
@@ -88,6 +105,7 @@ dependencies {
     implementation("androidx.test:rules:1.6.1")
     implementation("androidx.test.espresso:espresso-intents:3.6.1")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("androidx.test.espresso:espresso-contrib:3.6.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // Testing dependencies

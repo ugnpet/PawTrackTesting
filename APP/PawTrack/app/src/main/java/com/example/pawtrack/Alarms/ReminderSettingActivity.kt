@@ -136,21 +136,6 @@ class ReminderSettingActivity : AppCompatActivity() {
             recyclerView.visibility = View.VISIBLE
         }
 
-        // Request notification permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.POST_NOTIFICATIONS
-                    ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                        NOTIFICATION_PERMISSION_REQUEST_CODE
-                )
-            }
-        }
-
         loadAlarms()
     }
     private fun loadAlarms() {
@@ -166,10 +151,6 @@ class ReminderSettingActivity : AppCompatActivity() {
     private fun updateAlarms() {
         val alarms = alarmManager.loadAlarms()
         adapter.updateData(alarms)
-    }
-    private fun deleteAlarm(alarm: AlarmItem) {
-        alarmManager.deleteAlarm(alarm)
-        updateAlarms()
     }
 
     fun clearInputs() {
