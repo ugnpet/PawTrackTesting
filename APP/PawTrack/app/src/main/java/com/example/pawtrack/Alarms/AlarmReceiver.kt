@@ -1,5 +1,6 @@
 package com.example.pawtrack.Alarms
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -13,6 +14,7 @@ import com.example.pawtrack.R
 
 class AlarmReceiver : BroadcastReceiver() {
 
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("AlarmReceiver", "onReceive called")
 

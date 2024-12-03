@@ -55,6 +55,7 @@ class RouteActivity : AppCompatActivity() {
         loadOsmdroidConfig()
         performGetRequest(username, pet_id)
 
+        //DEBUG: petprofileButton functionality
         val petprofileButton = findViewById<FloatingActionButton>(R.id.pet_profile)
         petprofileButton.setOnClickListener {
             val intent = Intent(applicationContext, PetProfileActivity::class.java)

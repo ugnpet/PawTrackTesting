@@ -1,6 +1,13 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("io.gitlab.arturbosch.detekt") version "1.19.0"
+}
+
+detekt {
+    toolVersion = "1.19.0"
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+    buildUponDefaultConfig = true
 }
 
 android {
@@ -73,6 +80,7 @@ Report in: APP/PawTrack/app/build/reports/
  */
 
 dependencies {
+    implementation("io.gitlab.arturbosch.detekt:detekt-api:1.19.0")
     implementation ("androidx.appcompat:appcompat:1.3.1")
     implementation ("com.google.code.gson:gson:2.8.8")
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
